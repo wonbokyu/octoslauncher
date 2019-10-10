@@ -4,6 +4,31 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+
+buildscript {
+    ext.kotlin_version = '1.3.41'
+    repositories {
+        google()
+        jcenter()
+
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.4.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+
+    }
+}
+
+
 android {
     signingConfigs {
         debug {
@@ -52,14 +77,3 @@ dependencies {
 
 }
 
-
-task publish(dependsOn: 'assembleRelease')  {
-    println '>>> publish APK'
-    copy {
-        from ('build/outputs/apk/release') {
-            include '*release*.apk'
-        }
-        into '/Volumes/CRAYON/OctosApps/'
-    }
-    println '>>> publish APK(END)'
-}
