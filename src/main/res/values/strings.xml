@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">옥토런처</string>
+    <string name="avatar_error">Sorry cannot find avatar. Please contact us.</string>
+</resources>

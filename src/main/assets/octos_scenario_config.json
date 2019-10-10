@@ -1,0 +1,9 @@
+{
+  "SCENARIO":"COFFEE_ODER",
+  "SERVICE_COMPONENTS": [
+     {"PKG": "com.onethefull.wolfservice.octos","CLS": "com.onethefull.wolfservice.service.WolfService"}
+    ,{"PKG": "com.google.cloud.android.speech","CLS": "com.google.cloud.android.speech.SpeechService"}
+    ,{"PKG": "com.google.cloud.android.speech","CLS": "com.google.cloud.android.speech.OctosTTSService"}
+    ,{"PKG": "com.onethefull.onethefullservice","CLS": "com.onethefull.onethefullservice.service.AppService"}
+  ]
+}
