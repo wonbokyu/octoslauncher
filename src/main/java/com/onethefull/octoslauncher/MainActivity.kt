@@ -89,6 +89,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         Log.e(TAG," 런처에서 실행할 서비스를 바인드한다. ")
+        Log.e(TAG," scenario " + scenario)
         if(scenario.isNotEmpty()) {
             try {
                 var jsonObject = JSONObject(scenario)
@@ -98,9 +99,14 @@ class MainActivity : AppCompatActivity() {
                         for(i in 0..(it.length()-1)){
                             var item  = it.getJSONObject(i)
                             try {
+
+
                                 Intent().let {
                                     it.component = ComponentName.createRelative(item.getString("PKG"),item.getString("CLS"))
                                     Log.i(TAG,"SERVICE NAME  ${it.component} " )
+                                    Log.i(TAG,"SERVICE NAME  "  + item.getString("CLS"))
+                                    stopService(it)
+
                                     bindService(it,serviceConnection, Context.BIND_AUTO_CREATE).let {
                                         Log.i(TAG,"start service UDPServerService ${it} " )
                                     }
@@ -144,13 +150,27 @@ class MainActivity : AppCompatActivity() {
     var serviceConnection = object  : ServiceConnection{
         override fun onServiceDisconnected(p0: ComponentName?) {
             Log.i(TAG,"...onServiceDisconnected " + p0.toString())
+            p0?.let {
+                try {
+                    reBindService(it)
+                } catch (e: Exception) {
+                }
+            }
         }
 
         override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
-
-           Log.i(TAG,"...onServiceConnected " + p0.toString())
-            Log.i(TAG,"...onServiceConnected " + p1.toString())
+            Log.i(TAG,"...onServiceConnected " + p0.toString()+ p1.toString())
         }
+    }
+    fun reBindService(cmpName:ComponentName){
+        Log.i(TAG,"...ReBind " + cmpName.toString())
+        Intent().let {
+            it.component = cmpName
+            bindService(it,serviceConnection, Context.BIND_AUTO_CREATE).let {
+                Log.i(TAG,"start service Service ${it} " )
+            }
+        }
+
     }
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
